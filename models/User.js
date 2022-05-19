@@ -1,7 +1,7 @@
-import bcryptjs from 'bcryptjs'
-import jsonwebtoken from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
-
+import validator from 'validator'
 const UserSchema = new mongoose.Schema(
   {
     name: {
@@ -14,18 +14,13 @@ const UserSchema = new mongoose.Schema(
     email: {
       type: String,
       required: [true, 'Please provide email'],
-      match: [
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        'Please provide a valid email',
-      ],
+      validate: {
+        validator: validator.isEmail,
+        message: 'Please provide a valid email',
+      },
       unique: true,
     },
     password: {
-      type: String,
-      required: [true, 'Please provide password'],
-      minlength: 6,
-    },
-    confirmPassword: {
       type: String,
       required: [true, 'Please provide password'],
       minlength: 6,
@@ -41,5 +36,10 @@ UserSchema.pre('save', async function () {
   this.password = await bcrypt.hash(this.password, salt)
 })
 
+UserSchema.methods.createJWT = function () {
+  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
+  })
+}
 const User = mongoose.model('User', UserSchema)
 export default User
