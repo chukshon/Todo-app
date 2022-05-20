@@ -7,6 +7,7 @@ dotenv.config()
 import connectDB from './db/connect.js'
 // routes
 import authRoute from './routes/auth.js'
+import todoRoute from './routes/todos.js'
 
 // Middleware
 import notFoundMiddleware from './middleware/not-found.js'
@@ -19,6 +20,7 @@ app.get('/api/v1/', (req, res) => {
 })
 
 app.use('/api/v1/auth', authRoute)
+app.use('/api/v1/todos', todoRoute)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleWare)

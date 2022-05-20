@@ -1,12 +1,11 @@
 import express from 'express'
-
 const router = express.Router()
 
 router.post('/createTodo')
-router.get('/incompleteTodos')
-router.get('/completeTodos')
-router.put('/updateTodo')
-router.put('/updateTodoStatus')
-router.delete('/deleteTodo')
+router.get('/')
+router.put('/CompleteTodo/:id')
+router.put('/inCompleteTodo/:id')
+router.put('updateTodo/:id')
+router.delete('/deleteTodo/:id')
 
 export default router
