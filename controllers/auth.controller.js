@@ -25,5 +25,14 @@ const login = asyncHandler(async (req, res, next) => {
     res.status(StatusCodes.BAD_REQUEST).json({ msg: 'Invalid Credentials' })
     return
   }
+  const isPasswordCorrect = await user.comparePassword(password)
+  if (!isPasswordCorrect) {
+    res.status(StatusCodes.UNAUTHORIZED).json({ msg: 'Invalid Credentials' })
+    return
+  }
+
+  const token = user.createJWT()
+  res.status(StatusCodes.OK).json({ user, token })
 })
+
 export { register, login }

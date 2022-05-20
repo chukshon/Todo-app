@@ -4,6 +4,6 @@ import { userInputValidation } from '../middleware/InputValidation.js'
 const router = express.Router()
 
 router.post('/register', userInputValidation, register)
-router.post('login', userInputValidation, login)
+router.post('/login', login)
 
 export default router
