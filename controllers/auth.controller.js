@@ -30,7 +30,6 @@ const login = asyncHandler(async (req, res, next) => {
     res.status(StatusCodes.UNAUTHORIZED).json({ msg: 'Invalid Credentials' })
     return
   }
-
   const token = user.createJWT()
   res.status(StatusCodes.OK).json({ user, token })
 })
