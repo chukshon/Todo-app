@@ -18,9 +18,20 @@ const userLoginSchema = Joi.object({
   password: Joi.string().regex(PasswordRegex).message(PasswordError).required(),
 })
 
-const todoSchema = Joi.object({})
+const todoSchema = Joi.object({
+  todoContent: Joi.string().required(),
+})
 
-export const userInputValidation = asyncHandler(async (req, res, next) => {
+export const userRegisterValidation = asyncHandler(async (req, res, next) => {
   await userSchema.validateAsync(req.body, { abortEarly: false })
+  next()
+})
+
+export const userLoginValidation = asyncHandler(async (req, res, next) => {
+  await userLoginSchema.validateAsync(req.body, { abortEarly: false })
+  next()
+})
+export const todoValidation = asyncHandler(async (req, res, next) => {
+  await todoSchema.validateAsync(req.body, { abortEarly: false })
   next()
 })

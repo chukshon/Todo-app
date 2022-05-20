@@ -26,6 +26,7 @@ const errorHandlerMiddleWare = (err, req, res, next) => {
     )} field, please choose another value`
     defaultError.statusCode = 400
   }
+
   if (err.name === 'CastError') {
     defaultError.msg = `No item found with id : ${err.value}`
     defaultError.statusCode = 404
