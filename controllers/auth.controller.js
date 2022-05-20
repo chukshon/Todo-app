@@ -34,4 +34,8 @@ const login = asyncHandler(async (req, res, next) => {
   res.status(StatusCodes.OK).json({ user, token })
 })
 
-export { register, login }
+const getUser = asyncHandler(async (req, res) => {
+  res.status(StatusCodes.OK).json({ data: req.user.userId })
+})
+
+export { register, login, getUser }
