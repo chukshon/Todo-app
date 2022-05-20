@@ -41,5 +41,6 @@ UserSchema.methods.createJWT = function () {
     expiresIn: process.env.JWT_LIFETIME,
   })
 }
+UserSchema.methods.comparePassword = function (candidatePassword) {}
 const User = mongoose.model('User', UserSchema)
 export default User
