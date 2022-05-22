@@ -1,14 +1,15 @@
 import { useEffect } from 'react'
 import './main.scss'
-import Register from './pages/Register'
+import { AppProvider } from './context/appContext'
+import Home from './pages/Home'
+import Header from './components/Header'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
   return (
-    <div className='App'>
-      <h1>Hello world</h1>
-
-      <Register />
-    </div>
+    <AppProvider>
+      <Home />
+    </AppProvider>
   )
 }
 

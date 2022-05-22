@@ -9,13 +9,14 @@ const PasswordError =
 const userSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().required(),
-  password: Joi.string().regex(PasswordRegex).message(PasswordError).required(),
-  confirmPassword: Joi.string().required().valid(Joi.ref('password')),
+  password: Joi.string(),
+  confirmPassword: Joi.string().valid(Joi.ref('password')),
 })
 
 const userLoginSchema = Joi.object({
   email: Joi.string().email().required(),
-  password: Joi.string().regex(PasswordRegex).message(PasswordError).required(),
+  password: Joi.string(),
+  // password: Joi.string().regex(PasswordRegex).message(PasswordError).required(),
 })
 
 const todoSchema = Joi.object({
