@@ -13,7 +13,7 @@ import { todoValidation } from '../middleware/InputValidation.js'
 const router = express.Router()
 
 router.post('/createTodo', todoValidation, auth, createTodo)
-router.get('/', getTodo)
+router.get('/', auth, getTodo)
 router.patch('/CompleteTodo/:id', auth, completeTodo)
 router.patch('/inCompleteTodo/:id', auth, inCompleteTodo)
 router.patch('/updateTodo/:id', auth, updateTodo)

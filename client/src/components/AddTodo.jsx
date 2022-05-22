@@ -1,19 +1,28 @@
 import React from 'react'
 import { useState } from 'react'
+import { useAppContext } from '../context/appContext'
 
 const AddTodo = () => {
-  const [content, setContent] = useState('')
-  const handleSubmit = () => {}
+  const { createTodo, getIncompleteTodo } = useAppContext()
+  const [todoContent, setContent] = useState('')
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    createTodo(todoContent)
+    setContent('')
+  }
   return (
     <div>
       <form className='new' onSubmit={handleSubmit}>
         <input
           type='text'
-          value={content}
+          value={todoContent}
           onChange={(e) => setContent(e.target.value)}
         />
-
-        <button className='btn' type='submit' disabled={content.length === 0}>
+        <button
+          className='btn'
+          type='submit'
+          disabled={todoContent.length === 0}
+        >
           Add
         </button>
       </form>

@@ -5,6 +5,11 @@ import {
   REGISTER_USER_BEGIN,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_ERROR,
+  CREATE_TODO_BEGIN,
+  CREATE_TODO_SUCCESS,
+  CREATE_TODO_ERROR,
+  GET_INCOMPLETE_TODOS,
+  GET_COMPLETE_TODOS,
   LOGOUT_USER,
 } from './actions'
 
@@ -49,6 +54,31 @@ const reducer = (state, action) => {
       isLoading: false,
     }
   }
+  if (action.type === CREATE_TODO_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
+    }
+  }
+  if (action.type === CREATE_TODO_SUCCESS) {
+    return {
+      ...state,
+      isLoading: false,
+    }
+  }
+  if (action.type === CREATE_TODO_ERROR) {
+    return {
+      ...state,
+      isLoading: false,
+    }
+  }
+  if (action.type === GET_INCOMPLETE_TODOS) {
+    return {
+      ...state,
+      inCompleteTodo: action.payload,
+    }
+  }
+
   if (action.type === LOGOUT_USER) {
     return {
       ...state,
