@@ -11,6 +11,9 @@ import {
   GET_INCOMPLETE_TODOS,
   GET_COMPLETE_TODOS,
   LOGOUT_USER,
+  DELETE_TODO,
+  SET_COMPLETE_TODO,
+  SET_INCOMPLETE_TODO,
 } from './actions'
 
 const reducer = (state, action) => {
@@ -78,6 +81,12 @@ const reducer = (state, action) => {
       inCompleteTodo: action.payload,
     }
   }
+  if (action.type === GET_COMPLETE_TODOS) {
+    return {
+      ...state,
+      completeTodo: action.payload,
+    }
+  }
 
   if (action.type === LOGOUT_USER) {
     return {
@@ -85,6 +94,23 @@ const reducer = (state, action) => {
       user: null,
       token: null,
       isLoading: false,
+      todoContent: '',
+      inCompleteTodo: [],
+      completeTodo: [],
+    }
+  }
+  if (action.type === SET_COMPLETE_TODO) {
+    return {
+      ...state,
+      completeTodo: state.completeTodo.filter((e) => e._id !== action.payload),
+    }
+  }
+  if (action.type === SET_INCOMPLETE_TODO) {
+    return {
+      ...state,
+      inCompleteTodo: state.inCompleteTodo.filter(
+        (e) => e._id !== action.payload
+      ),
     }
   }
 

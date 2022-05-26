@@ -8,6 +8,7 @@ const AddTodo = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     createTodo(todoContent)
+    getIncompleteTodo()
     setContent('')
   }
   return (

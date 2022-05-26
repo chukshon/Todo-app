@@ -7,23 +7,7 @@ import Register from './Register'
 import ProtectedRoute from '../components/ProtectedRoute'
 
 const Home = () => {
-  return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route
-          path='/dashboard'
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login />} />
-      </Routes>
-    </BrowserRouter>
-  )
+  return <h1>Hello</h1>
 }
 
 export default Home

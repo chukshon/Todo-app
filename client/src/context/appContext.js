@@ -14,6 +14,8 @@ import {
   GET_INCOMPLETE_TODOS,
   GET_COMPLETE_TODOS,
   LOGOUT_USER,
+  SET_COMPLETE_TODO,
+  SET_INCOMPLETE_TODO,
 } from './actions'
 import reducer from './reducer'
 import axios from 'axios'
@@ -34,6 +36,11 @@ const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
+
+  useEffect(() => {
+    getIncompleteTodo()
+    getCompleteTodo()
+  }, [])
   const authFetch = axios.create({
     baseURL: '/api/v1',
   })
@@ -129,9 +136,60 @@ const AppProvider = ({ children }) => {
     } catch (err) {}
   }
 
+  const getCompleteTodo = async () => {
+    try {
+      const response = await authFetch.get('/todos')
+      dispatch({
+        type: GET_COMPLETE_TODOS,
+        payload: response.data.completeTodo,
+      })
+    } catch (err) {}
+  }
+
   const logoutUser = () => {
     dispatch({ type: LOGOUT_USER })
     removeUserFromLocalStorage()
+  }
+
+  const updatedTodo = async (id, todo) => {
+    try {
+      await authFetch.patch(`/todos/updateTodo/${id}`, {
+        todoContent: todo,
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const deletedTodo = async (id, todo) => {
+    try {
+      await authFetch.delete(`/todos/deleteTodo/${id}`)
+      if (todo.complete) {
+        dispatch({ type: SET_COMPLETE_TODO, payload: id })
+      } else {
+        dispatch({ type: SET_INCOMPLETE_TODO, payload: id })
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const updateTodoStatus = async (id, todo) => {
+    try {
+      if (todo.complete) {
+        await authFetch.patch(`/todos/inCompleteTodo/${id}`)
+        dispatch({ type: SET_COMPLETE_TODO, payload: id })
+        getIncompleteTodo()
+        getCompleteTodo()
+      } else {
+        await authFetch.patch(`/todos/CompleteTodo/${id}`)
+        dispatch({ type: SET_INCOMPLETE_TODO, payload: id })
+        getIncompleteTodo()
+        getCompleteTodo()
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -143,6 +201,10 @@ const AppProvider = ({ children }) => {
         logoutUser,
         createTodo,
         getIncompleteTodo,
+        getCompleteTodo,
+        updatedTodo,
+        deletedTodo,
+        updateTodoStatus,
       }}
     >
       {children}
